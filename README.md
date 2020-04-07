@@ -8,7 +8,7 @@
 **Using this to learn bold**
 _and italics in .md file as well_
 
-_I know you **can Combine** them lol _ :rofl:
+_I know you **can Combine** them lol_ :rofl:
 
 http://github.com - automatic!
 [GitHub- Mastering Markdown](https://guides.github.com/features/mastering-markdown/)
