@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModel;
 
 public class HomeViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    //private MutableLiveData<String> mText;
     public int myDatasetcount;
     public ArrayList<String> images_ArrayList = new ArrayList<>();
     public ArrayList<String> status_ArrayList = new ArrayList<>();
@@ -22,8 +22,8 @@ public class HomeViewModel extends ViewModel {
     public String ip,host,ipAddress;
 
     public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+//        mText = new MutableLiveData<>();
+//        mText.setValue("This is home fragment");
 
         ip_ArrayList.add("192.168.1.1");
         status_ArrayList.add("UP");
@@ -38,9 +38,9 @@ public class HomeViewModel extends ViewModel {
 
     }
 
-    public LiveData<String> getText() {
-        return mText;
-    }
+//    public LiveData<String> getText() {
+//        return mText;
+//    }
     public MyAdapter getAdapter(Context context){
         MyAdapter adapter = new MyAdapter(context,ip_ArrayList, desc_ArrayList,status_ArrayList, images_ArrayList,myDatasetcount);
         return adapter;
