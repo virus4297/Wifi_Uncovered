@@ -1,10 +1,16 @@
 package com.example.wifiuncovered;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.text.format.Formatter;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.example.wifiuncovered.ui.home.HomeViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -22,6 +28,11 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    public String ip,host,ipAddress;
+    public SQLiteDatabase database;
+    public MyHelper helper;
+    public ProgressBar pb;
+    public getDataNetwork asyncTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +74,45 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        //*********************************************************************************************************************
+
+        helper=new MyHelper(this);
+        database = helper.getWritableDatabase();
+        //***********************Get Current IP****************************
+        WifiManager wm = (WifiManager) this.getSystemService(WIFI_SERVICE);
+        if(wm!=null)
+            ipAddress = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
+        else
+            ipAddress="Wifi not Available!";
+        if(ipAddress.equals("0.0.0.0"))
+        {
+            Toast.makeText(this,"Turn ON the Wifi beach!\nand\n Restart Application", Toast.LENGTH_LONG).show();
+            ipAddress="Wifi not Available!";
+            //return;
+        }
+        HomeViewModel homeViewModel=new HomeViewModel();
+        homeViewModel.updateData(ipAddress);
+
+        //clear existing data to get new data every time app opens
+        database.delete("DEVICES","",new String[]{});
+
+        helper.insertData("IP Address","Description","Status",database);
+//        helper.insertData("192.168.1.2","hehe","DOWN",database);
+//        helper.insertData("192.168.1.3","hehe","UP",database);
+        //*******************************Async call to getData
+        final MainActivity mainActivity = this;
+        asyncTask=new getDataNetwork(ipAddress,pb,this,mainActivity,helper,database);
+        asyncTask.execute();
+
+    }//OnCreate ends here
+
+    public void setpbvisible(int visible){
+        pb=findViewById(R.id.pbmain);
+        pb.setVisibility(visible);
+    }
+    public String getDataNetworkStatus(){
+        return asyncTask.getStatus().toString();
     }
 
     @Override
