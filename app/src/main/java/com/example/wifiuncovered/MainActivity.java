@@ -76,9 +76,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         //*********************************************************************************************************************
-
-        helper=new MyHelper(this);
-        database = helper.getWritableDatabase();
+//
+//        helper=new MyHelper(this);
+//        database = helper.getWritableDatabase();
         //***********************Get Current IP****************************
         WifiManager wm = (WifiManager) this.getSystemService(WIFI_SERVICE);
         if(wm!=null)
@@ -91,15 +91,7 @@ public class MainActivity extends AppCompatActivity {
             ipAddress="Wifi not Available!";
             //return;
         }
-//        HomeViewModel homeViewModel=new HomeViewModel();
-        HomeViewModel.updateData(ipAddress);
 
-        //clear existing data to get new data every time app opens
-        database.delete("DEVICES","",new String[]{});
-
-        helper.insertData("IP Address","Description","Status",database);
-//        helper.insertData("192.168.1.2","hehe","DOWN",database);
-//        helper.insertData("192.168.1.3","hehe","UP",database);
         //*******************************Async call to getData
         final MainActivity mainActivity = this;
         asyncTask=new getDataNetwork(ipAddress,pb,this,mainActivity,helper,database);

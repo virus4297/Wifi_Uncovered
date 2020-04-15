@@ -5,7 +5,9 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    tools:context=".ui.home.HomeFragment"
+    android:backgroundTint="@color/black"
+    android:background="@color/black">
 
     <TextView
         android:id="@+id/textView3"
@@ -29,7 +31,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView3"
-        tools:listitem="@layout/recycler_view_item">
+        tools:listitem="@layout/recycler_view_item"
+        android:textColor="@color/white">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -42,7 +45,8 @@
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="16dp"
         android:text="Restart"
-        android:textColor="?attr/colorControlActivated"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/first"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
