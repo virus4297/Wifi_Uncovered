@@ -40,7 +40,6 @@ SQLiteDatabase database;
 
     }
 
-
     @Override
     protected void onPreExecute() {
         super.onPreExecute();

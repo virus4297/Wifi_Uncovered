@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
             ipAddress="Wifi not Available!";
             //return;
         }
-        HomeViewModel homeViewModel=new HomeViewModel();
-        homeViewModel.updateData(ipAddress);
+//        HomeViewModel homeViewModel=new HomeViewModel();
+        HomeViewModel.updateData(ipAddress);
 
         //clear existing data to get new data every time app opens
         database.delete("DEVICES","",new String[]{});
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         pb.setVisibility(visible);
     }
     public String getDataNetworkStatus(){
-        return asyncTask.getStatus().toString();
+        return this.asyncTask.getStatus().toString();
     }
 
     @Override

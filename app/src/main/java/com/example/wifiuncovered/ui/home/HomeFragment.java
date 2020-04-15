@@ -31,6 +31,7 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
+    public MainActivity mainActivity;
     public RecyclerView recyclerView;
     public HomeViewModel homeViewModel;
     public View root;
@@ -40,6 +41,10 @@ public class HomeFragment extends Fragment {
     public Fragment fragment;
     public FragmentTransaction ft;
     public ProgressBar pb;
+
+    public HomeFragment(MainActivity mainActivity){
+        this.mainActivity=mainActivity;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,7 +60,7 @@ public class HomeFragment extends Fragment {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         root = inflater.inflate(R.layout.fragment_home, container, false);
         textView = root.findViewById(R.id.textView3);
-        textView.append(homeViewModel.getIp());
+        textView.append(HomeViewModel.getIp());
         //***************************button start************************************
         Button button = root.findViewById(R.id.getip_button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -76,31 +81,28 @@ public class HomeFragment extends Fragment {
 //            }
 //        });
 
+//        pb=root.findViewById(R.id.pbmain);
+
+        while(!mainActivity.getDataNetworkStatus().equals(View.GONE))
+            ;//wait
+
         MyHelper helper = new MyHelper(getContext());
         final SQLiteDatabase database=helper.getReadableDatabase();
 
         //initRecyclerView
         recyclerView = root.findViewById(R.id.ip_RecyclerView);
         //recyclerView.setHasFixedSize(true);
-        //MainActivity mainActivity=new MainActivity();
-
-        /*
-        pb=root.findViewById(R.id.pbmain);
-        while(pb.getVisibility()!=View.GONE)
-            ;//wait
-        */
 
         homeViewModel.getLiveAdapter(getContext()).observe(getViewLifecycleOwner(), new Observer<MyAdapter>() {
             @Override
             public void onChanged(MyAdapter myAdapter) {
-                recyclerView.removeAllViews();
-                homeViewModel.getData(database);
+                //recyclerView.removeAllViews();
                 recyclerView.setAdapter(myAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             }
         });
 
-        Thread updateRecycler = new Thread(new Runnable() {
+        Thread updateRecyclerThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 int j=0;
@@ -112,20 +114,14 @@ public class HomeFragment extends Fragment {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                homeViewModel.updateRecycler();
+                    homeViewModel.getData(database);
+                    homeViewModel.updateRecycler();
                 }
             }
         });
-        updateRecycler.start();
+        updateRecyclerThread.start();
 
         return root;
     }
-
-
-
-
-
-
-
 
 }

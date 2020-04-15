@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 public class HomeViewModel extends ViewModel {
 
@@ -24,16 +26,18 @@ public class HomeViewModel extends ViewModel {
     public ArrayList<String> desc_ArrayList = new ArrayList<>();
     public String ip,host,ipAddress;
     public static Context contextView;
-    public HomeViewModel() {
+
+//    public HomeViewModel() {
 //        mText = new MutableLiveData<>();
 //        mText.setValue("This is home fragment");
-    myAdapterMutableLiveData=new MutableLiveData<>();
-    myAdapterMutableLiveData.postValue(new MyAdapter(contextView, ip_ArrayList, desc_ArrayList, status_ArrayList, images_ArrayList, myDatasetcount));
-    }
+//        if(myAdapterMutableLiveData.equals(null))
+//                myAdapterMutableLiveData=new MutableLiveData<MyAdapter>();
+//    }
 
-    public static Context getHomeViewModelCurrentObject(){
-        return HomeViewModel.contextView;
-    }
+
+//    public static Context getHomeViewModelCurrentObject(){
+//        return HomeViewModel.contextView;
+//    }
 
 
     public void getData(SQLiteDatabase database) {
